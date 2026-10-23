@@ -1,0 +1,16 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Downloaded automatically on first run (see detectors.py)
+models/
+
+# Per-user and per-session output
+calibration.json
+reports/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
