@@ -74,7 +74,7 @@ def build_figure(rows, summary, min_distance, slouch_limit):
     fig.suptitle(f"Eye Safety Report  -  {summary['started_at']}", fontsize=14, fontweight="bold")
     _plot(ax[0][0], rows, "distance_cm", "tab:blue", "Distance from screen", "cm",
           min_distance, "minimum safe", shade_below=True)
-    _plot(ax[0][1], rows, "blink_rate", "tab:green", "Blink rate", "blinks / min",
+    _plot(ax[0][1], rows, "running_blink_rate", "tab:green", "Blink rate", "blinks / min",
           config.LOW_BLINK_RATE, "too low")
     _plot(ax[1][0], rows, "neck_ratio", "tab:purple", "Posture (head height above shoulders)",
           "ratio", slouch_limit, "slouching below")

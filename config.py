@@ -23,7 +23,7 @@ DEFAULT_CAMERA_FOV_DEG = 65     # rough guess used until you calibrate
 DEFAULT_EAR_THRESHOLD = 0.21
 MAX_BLINK_SECONDS = 0.6         # longer closures are not counted as blinks
 LOW_BLINK_RATE = 10             # blinks per minute
-BLINK_WINDOW_SECONDS = 60
+BLINK_WINDOW_SECONDS = 30
 
 # Posture
 SLOUCH_RATIO = 0.80             # neck ratio under 80% of your upright value = slouching

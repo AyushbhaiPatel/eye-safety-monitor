@@ -175,6 +175,7 @@ def main():
         alerts.update("tilt", live and tilted and not slouching, now, "Level your shoulders")
         alerts.update("break", live and breaks.break_due, now, "20-20-20: look 20 ft away for 20 seconds")
         logger.record(now, face_present=face is not None, distance_cm=distance, blink_rate=blink_rate,
+                      running_blink_rate=blinks.running_rate(now),
                       neck_ratio=neck, slouching=slouching, too_close=too_close, low_blink=low_blink)
 
         # --- calibration -----------------------------------------------------

@@ -65,6 +65,16 @@ class BlinkCounterTest(unittest.TestCase):
         end = self.feed(counter, ([0.3] * 56 + [0.1] * 4 + [0.3]) * 3, t0=end)
         self.assertAlmostEqual(counter.rate(end), 5 * 6, delta=6)
 
+    def test_running_rate_is_available_before_the_window_fills(self):
+        counter = BlinkCounter(threshold=0.2, window=30)
+        self.assertIsNone(counter.running_rate(0.0))
+        counter.window_start = 0.0
+        counter.times.extend([1.0, 2.0])
+        self.assertIsNone(counter.rate(5.0))
+        self.assertEqual(counter.running_rate(5.0), 12)    # 10 s floor applies
+        self.assertEqual(counter.running_rate(20.0), 6)    # 2 blinks in 20 s
+        self.assertEqual(counter.running_rate(45.0), 0)    # both blinks left the window
+
 
 class BreakTimerTest(unittest.TestCase):
     def test_break_due_then_taken(self):

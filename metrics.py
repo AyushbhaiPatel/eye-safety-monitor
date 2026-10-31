@@ -112,6 +112,7 @@ class BlinkCounter:
     OPEN_FRACTION = 0.75      # and open again above 75% (the gap stops flickering)
     HISTORY_SECONDS = 4.0
     MIN_BLINK_SECONDS = 0.04  # a real blink spans at least 2 frames; 1-frame dips are noise
+    RUNNING_FLOOR_SECONDS = 10.0  # stops one early blink reading as a huge running rate
 
     def __init__(self, threshold=config.DEFAULT_EAR_THRESHOLD, window=config.BLINK_WINDOW_SECONDS):
         self.threshold, self.window, self.total = threshold, window, 0
@@ -156,6 +157,17 @@ class BlinkCounter:
         while self.times and now - self.times[0] > self.window:
             self.times.popleft()
         return len(self.times) * 60 / self.window
+
+    def running_rate(self, now):
+        """Estimate available from the first second, for the report chart.
+
+        Uses the time measured so far until a full window exists. Alerts and the score keep
+        using rate(), because this estimate is unreliable early on.
+        """
+        if self.window_start is None:
+            return None
+        seconds = min(max(now - self.window_start, self.RUNNING_FLOOR_SECONDS), self.window)
+        return sum(1 for t in self.times if now - t <= self.window) * 60 / seconds
 
 
 class BreakTimer:
